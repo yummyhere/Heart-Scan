@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💞 Love Operating System v2.0</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    #finalMessageOverlay {
+  pointer-events: none; /* disabled by default */
+}
+#finalMessageOverlay:not(.hidden) {
+  pointer-events: auto; /* clickable when active */
+}
+    /* 💕 Mobile responsiveness fix */
+html, body {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto; /* allow vertical scroll */
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+/* Make sure main content doesn't get cut off */
+#dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Adjust big fonts for mobile */
+@media (max-width: 768px) {
+  h1.text-5xl {
+    font-size: 2rem !important;
+  }
+  h2.text-5xl, h2.text-6xl {
+    font-size: 1.75rem !important;
+  }
+  .text-3xl {
+    font-size: 1.4rem !important;
+  }
+  .text-4xl {
+    font-size: 1.6rem !important;
+  }
+  #finalMessageOverlay > div {
+    padding: 1.5rem !important;
+  }
+  button#revealButton {
+    font-size: 1.2rem !important;
+    padding: 0.8rem 1.6rem !important;
+  }
+}
+
+/* Prevent inner overlay content from cutting off */
+#finalMessageOverlay {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 3rem;
+}
+    body {
+      background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+      font-family: 'Poppins', sans-serif;
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .data-card {
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.1);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .data-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 30px rgba(236, 72, 153, 0.3);
+    }
+
+    .timeline-bar-bg {
+      background: #334155;
+      height: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .timeline-bar-fill {
+      background: linear-gradient(90deg, #ec4899, #60a5fa);
+      height: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.5);
+    }
+
+    .radial-progress {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.25rem;
+      position: relative;
+    }
+
+    .radial-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: conic-gradient(#f472b6 var(--p), #334155 var(--p));
+    }
+
+    .radial-inner {
+      background: #1e293b;
+      width: 80%;
+      height: 80%;
+      border-radius: 50%;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f472b6;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 8px rgba(236, 72, 153, 0.8);
+    }
+
+    .blink {
+      animation: blink 1.8s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 1; }
+      to { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body class="p-6 md:p-10">
+
+  <main id="dashboard" class="max-w-6xl mx-auto transition-opacity duration-700 opacity-0">
+    <header class="text-center mb-12">
+      <h1 class="text-5xl font-extrabold text-pink-400 glow-text animate-pulse">💞 Love Operating System v2.0</h1>
+      <p class="text-lg text-slate-300 mt-3">booting emotional core... <span class="animate-pulse">▮▮▮</span></p>
+    </header>
+
+    <div class="w-full max-w-xl mx-auto mb-12 data-card p-4 flex justify-center items-center">
+      <span class="text-sm font-mono mr-4 text-slate-400">💬 SYSTEM STATUS:</span>
+      <span id="systemStatus" class="font-extrabold text-lg text-pink-400 animate-pulse">Initializing heart data...</span>
+    </div>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+
+      <div class="data-card p-6 col-span-1">
+        <h2 class="text-xl font-semibold text-pink-300 mb-4 flex items-center">
+          <span class="mr-2">📅</span> Love Timeline: Active System
+        </h2>
+        <div class="text-slate-400 text-sm mb-2">Initialization Date: 24 Sept 2024 🩵</div>
+        <div id="daysCounter" class="text-6xl font-extrabold text-pink-400">0</div>
+        <div class="timeline-bar-bg mt-4">
+          <div class="timeline-bar-fill" id="timelineFill"></div>
+        </div>
+        <p class="text-xs text-slate-400 mt-3">System uptime: <span class="text-pink-400">stable</span> | Connection: <span class="text-sky-400">secured 💞</span></p>
+      </div>
+
+      <div class="data-card p-6 col-span-1">
+        <h2 class="text-xl font-semibold text-pink-300 mb-4 flex items-center">
+          <span class="mr-2">🪩</span> Weekly Data Sync
+        </h2>
+        <p class="text-slate-400 text-sm mb-6">Analyzing vibe distribution... ⚙️</p>
+
+        <div class="space-y-6">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-sm font-medium text-teal-400">Happiness When I'm With You</span>
+              <span class="text-lg font-bold text-teal-400">100%</span>
+            </div>
+            <div class="w-full bg-slate-700 h-4 rounded-full">
+              <div class="h-4 rounded-full" style="width: 100%; background-color: #14b8a6;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-sm font-medium text-fuchsia-400">Message Traffic Volume</span>
+              <span class="text-lg font-bold text-fuchsia-400">99%</span>
+            </div>
+            <div class="w-full bg-slate-700 h-4 rounded-full">
+              <div class="h-4 rounded-full" style="width: 99%; background-color: #a21caf;"></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 mt-6">Emotional data confirms: peak happiness and constant message flow = stable connection forever 🫠.</p>
+      </div>
+
+      <div class="data-card p-6 col-span-1">
+        <h2 class="text-xl font-semibold text-pink-300 mb-4 flex items-center">
+          <span class="mr-2">💖</span> Husband Diagnostics
+        </h2>
+        <div class="flex justify-around items-center pt-2">
+          <div class="text-center">
+            <div class="radial-progress" style="--p:99;">
+              <div class="radial-bg" style="--p:99;"></div>
+              <div class="radial-inner">99%</div>
+            </div>
+            <p class="text-sm text-slate-400 mt-1">Humor Module 😆</p>
+          </div>
+
+          <div class="text-center">
+            <div class="radial-progress" style="--p:100;">
+              <div class="radial-bg" style="--p:100;"></div>
+              <div class="radial-inner">100%</div>
+            </div>
+            <p class="text-sm text-slate-400 mt-1">Kindness Engine 💞</p>
+          </div>
+
+          <div class="text-center">
+            <div class="radial-progress" style="--p:98;">
+              <div class="radial-bg" style="--p:98;"></div>
+              <div class="radial-inner">98%</div>
+            </div>
+            <p class="text-sm text-slate-400 mt-1">Cuteness Algorithm 🥺</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 mt-4">Diagnostic Result: subject remains dangerously adorable 💘</p>
+      </div>
+    </section>
+
+    <section class="text-center mt-14 mb-8">
+      <p class="text-lg text-slate-300 mb-6 animate-pulse">
+        💾 Ready to generate final report?
+      </p>
+      <button id="revealButton" onclick="showFinalMessage()"
+        class="bg-pink-500 hover:bg-pink-600 text-white text-2xl font-bold py-4 px-10 rounded-full transition duration-300 transform hover:scale-105 shadow-lg shadow-pink-500/50">
+        [ RUN HEART ANALYSIS 💗 ]
+      </button>
+    </section>
+  </main>
+
+  <div id="finalMessageOverlay" class="fixed inset-0 bg-gradient-to-br from-pink-200 via-white to-blue-100 backdrop-blur-lg hidden items-center justify-center p-8 z-50 transition-opacity duration-700 opacity-0">
+    <div class="bg-white/80 border border-pink-200 shadow-[0_0_60px_rgba(236,72,153,0.4)] p-10 md:p-14 rounded-3xl max-w-2xl text-center relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div class="absolute top-10 left-10 w-16 h-16 bg-pink-300/30 blur-2xl rounded-full animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-24 h-24 bg-blue-300/30 blur-3xl rounded-full animate-ping"></div>
+      </div>
+
+      <h2 class="text-5xl md:text-6xl font-extrabold text-pink-500 mb-6 animate-bounce">💘 Heart Scan Complete</h2>
+      <p class="text-gray-700 text-xl md:text-2xl leading-relaxed mb-6">
+        All systems confirm the same output every single time:
+      </p>
+      <p class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-rose-500 mb-10 animate-pulse">
+        I’m completely, hopelessly, algorithmically in love with you alooo miaaa 💞
+      </p>
+      <p class="text-gray-600 text-lg italic mb-6">
+        You’re my favorite constant in this entire simulation.<br>
+        My heart reboots for you daily aloo miaaa 🫠
+      </p>
+      <p id="birthdayWish" class="text-2xl text-pink-500 font-extrabold mt-6 animate-pulse relative">
+        🎉🌸 Happy Birthday, my cutieee aloo miaaa 🌸🎉
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const START_DATE = "2024-09-24";
+    const STATUS_CHECKS = [
+      "Initializing emotional circuits... 💗",
+      "Running affection diagnostics... 💞",
+      "Syncing heartbeats (100% match) 💫",
+      "Optimizing cuddle algorithms 🫶",
+      "Updating love firmware v2.0 💌",
+      "Deploying extra serotonin ☁️",
+      "System stable: Love confirmed 💕",
+    ];
+
+    const daysCounter = document.getElementById('daysCounter');
+    const timelineFill = document.getElementById('timelineFill');
+    const dashboard = document.getElementById('dashboard');
+    const finalMessageOverlay = document.getElementById('finalMessageOverlay');
+    const systemStatus = document.getElementById('systemStatus');
+
+    function updateDaysCounter() {
+      const startDate = new Date(START_DATE);
+      const today = new Date();
+      const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+      let count = 0;
+      const step = Math.ceil(diffDays / 100);
+      const interval = setInterval(() => {
+        count += step;
+        if (count >= diffDays) {
+          count = diffDays;
+          clearInterval(interval);
+        }
+        daysCounter.textContent = count.toLocaleString();
+        timelineFill.style.width = Math.min((count / 3650) * 100, 100) + "%";
+      }, 10);
+    }
+
+    function startSystemChecks() {
+      let i = 0;
+      const updateStatus = () => {
+        systemStatus.textContent = STATUS_CHECKS[i];
+        i = (i + 1) % STATUS_CHECKS.length;
+      };
+      updateStatus();
+      setInterval(updateStatus, 2500);
+    }
+
+    function triggerBirthdayConfetti() {
+      const duration = 4 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 8,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#ff69b4', '#ffd1dc', '#ffb6c1', '#fff0f5']
+        });
+        confetti({
+          particleCount: 8,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#87cefa', '#ffc0cb', '#ffb6c1', '#ffffff']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+
+    function showFinalMessage() {
+  // fade out dashboard
+  dashboard.style.transition = "opacity 0.5s ease";
+  dashboard.style.opacity = "0";
+
+  setTimeout(() => {
+    dashboard.classList.add('hidden');
+
+    // fade in overlay
+    finalMessageOverlay.classList.remove('hidden');
+    finalMessageOverlay.style.display = "flex"; // ensure flex layout works
+    finalMessageOverlay.style.opacity = "0";
+    finalMessageOverlay.style.transition = "opacity 0.8s ease, transform 0.5s ease";
+    finalMessageOverlay.style.pointerEvents = "auto";
+
+    setTimeout(() => {
+      finalMessageOverlay.style.opacity = "1";
+      finalMessageOverlay.style.transform = "scale(1)";
+    }, 100);
+
+    // run confetti after overlay fully visible
+    setTimeout(triggerBirthdayConfetti, 1000);
+  }, 600);
+}
+
+    window.onload = function() {
+      updateDaysCounter();
+      startSystemChecks();
+      setTimeout(() => dashboard.classList.add('opacity-100'), 200);
+    };
+  </script>
+</body>
+</html>
